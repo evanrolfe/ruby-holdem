@@ -24,6 +24,111 @@ describe RubyHoldem::Round do
     its(:action_history) { should eq([]) }
   end
 
+  describe '#next_stage' do
+    before do
+      allow(round).to receive(:action_history).and_return(action_history)
+    end
+
+    context 'on the pre_flop' do
+      let(:action_history) do
+        [
+          { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
+          { stage: 'pre_flop', player: round.players[1], amount: 0, move: 'fold' },
+          { stage: 'pre_flop', player: round.players[2], amount: 1, move: 'call' },
+          { stage: 'pre_flop', player: round.players[0], amount: 0, move: 'call' }
+        ]
+      end
+
+      before do
+        round.next_stage
+      end
+
+      it { expect(round.current_stage).to eq('flop') }
+    end
+  end
+
+  describe '#ready_for_next_stage?' do
+    before do
+      allow(round).to receive(:action_history).and_return(action_history)
+    end
+
+    subject { round.ready_for_next_stage? }
+
+    context 'on game start' do
+      let(:action_history) { [] }
+
+      it { should eq(false) }
+    end
+
+    context 'on the pre_flop' do
+
+      context 'situation 1' do
+        let(:action_history) do
+          [
+            { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
+            { stage: 'pre_flop', player: round.players[1], amount: 0, move: 'fold' }
+          ]
+        end
+        it { should eq(false) }
+      end
+
+      context 'situation 2' do
+        let(:action_history) do
+          [
+            { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
+            { stage: 'pre_flop', player: round.players[1], amount: 0, move: 'fold' },
+            { stage: 'pre_flop', player: round.players[2], amount: 1, move: 'call' },
+            { stage: 'pre_flop', player: round.players[0], amount: 0, move: 'call' }
+          ]
+        end
+
+        it { should eq(true) }
+      end
+
+    end
+
+    context 'on the flop' do
+
+      context 'situation 1' do
+        let(:action_history) do
+          [
+            { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
+            { stage: 'pre_flop', player: round.players[1], amount: 0, move: 'fold' },
+            { stage: 'pre_flop', player: round.players[2], amount: 1, move: 'call' },
+            { stage: 'flop', player: round.players[0], amount: 1, move: 'bet' }
+          ]
+        end
+
+        before do
+          allow(round).to receive(:current_stage).and_return('flop')
+        end
+
+        it { should eq(false) }
+      end
+
+      context 'situation 2' do
+        let(:action_history) do
+          [
+            { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
+            { stage: 'pre_flop', player: round.players[1], amount: 0, move: 'fold' },
+            { stage: 'pre_flop', player: round.players[2], amount: 1, move: 'call' },
+            { stage: 'pre_flop', player: round.players[0], amount: 0, move: 'call' },
+            { stage: 'flop', player: round.players[0], amount: 3, move: 'bet' },
+            { stage: 'flop', player: round.players[2], amount: 3, move: 'call' },
+            { stage: 'flop', player: round.players[0], amount: 0, move: 'call' }
+          ]
+        end
+
+        before do
+          allow(round).to receive(:current_stage).and_return('flop')
+        end
+
+        it { should eq(true) }
+      end
+
+    end
+  end
+
   describe '#player_in_turn' do
     let(:action_history) do
       [
@@ -79,16 +184,40 @@ describe RubyHoldem::Round do
     it { should eq(4) }
   end
 
-  #describe '#has_winner?' do
-  #  include_context 'round won after a showdown'
-  #    before do
-  #      round.has_winner?
-  #    end
-  #    #its(:action_history) { should eq([{ stage: 'pre_flop', player_id: players[0].id, amount: 1, move: 'bet' }]) }
-  #  end
-  #
-  #  include_context 'round won after folds'
-  #end
+  describe '#has_winner?' do
+    subject { round.has_winner? }
+
+    context 'round won after folds' do
+      let(:action_history) do
+        [
+          { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
+          { stage: 'pre_flop', player: round.players[1], amount: 4, move: 'bet' },
+          { stage: 'pre_flop', player: round.players[2], amount: 0, move: 'fold'},
+          { stage: 'pre_flop', player: round.players[0], amount: 3, move: 'call' },
+          { stage: 'flop', player: round.players[1], amount: 0, move: 'call' },
+          { stage: 'flop', player: round.players[0], amount: 0, move: 'fold' }
+        ]
+      end
+
+      before do
+        allow(round).to receive(:action_history).and_return(action_history)
+      end
+
+      it { should eq(true) }
+    end
+
+    context 'showdown between remaining players' do
+      before do
+        allow(round).to receive(:current_stage).and_return('show_down')
+      end
+
+      it { should eq(true) }
+    end
+  end
+
+  describe '#winner' do
+
+  end
 
   describe '#apply_bet' do
     context 'at the start of the round' do

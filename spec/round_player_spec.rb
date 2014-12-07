@@ -23,6 +23,20 @@ describe RubyHoldem::RoundPlayer do
     allow(round).to receive(:action_history).and_return(action_history)
   end
 
+  describe 'delegates methods to @player' do
+    describe '#id' do
+      it { expect(round.players[0].id).to eq(players[0].id) }
+      it { expect(round.players[1].id).to eq(players[1].id) }
+      it { expect(round.players[2].id).to eq(players[2].id) }
+    end
+
+    describe '#bank_roll' do
+      it { expect(round.players[0].bank_roll).to eq(100) }
+      it { expect(round.players[1].bank_roll).to eq(100) }
+      it { expect(round.players[2].bank_roll).to eq(100) }
+    end
+  end
+
   describe '#current_bet_amount' do
     describe 'for player 0' do
       subject { round.players[0].current_bet_amount }
