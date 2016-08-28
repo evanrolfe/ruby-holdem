@@ -18,12 +18,12 @@ module RubyHoldem
 
     def deal_community_cards(stage)
       raise ArgumentError unless %w(pre_flop flop turn river show_down).include?(stage)
+
       if stage == 'pre_flop'
         3.times { community_cards << deck.deal }
       elsif %w(flop turn).include?(stage)
         community_cards << deck.deal
       end
     end
-
   end
 end

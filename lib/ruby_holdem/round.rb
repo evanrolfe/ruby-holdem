@@ -2,7 +2,15 @@ module RubyHoldem
   class Round
     extend Forwardable
 
-    attr_reader :players, :small_blinds, :big_blinds, :pot_amount, :current_stage, :action_history, :dealer, :turns_played
+    attr_reader :players,
+                :small_blinds,
+                :big_blinds,
+                :pot_amount,
+                :current_stage,
+                :action_history,
+                :dealer,
+                :turns_played
+
     def_delegator :@dealer, :community_cards
 
     STAGES = %w(pre_flop flop turn river show_down)
@@ -33,11 +41,13 @@ module RubyHoldem
 
     def next_stage
       raise StandardError unless ready_for_next_stage? && @current_stage != 'show_down'
+
       @current_stage = STAGES[STAGES.index(@current_stage)+1]
     end
 
     def ready_for_next_stage?
       return false unless every_player_has_called? && turns_played_in_stage > 0
+
       players_still_in_round.map { |player| (player.current_bet_amount == highest_bet_placed) }.all?
     end
 
@@ -52,14 +62,17 @@ module RubyHoldem
 
     def player_in_turn  #The player whose turn it is to make a move
       return players[0] if action_history.length == 0
+
       last_player_index = players.index(action_history.last[:player])
       player_found = false
       increment=1
+
       until player_found
         next_player = players[(last_player_index + increment) % players.length]   #Wrap around the array once end reached
         player_found = true if players_still_in_round.include?(next_player)
         increment += 1
       end
+
       next_player
     end
 
@@ -99,7 +112,8 @@ module RubyHoldem
 
     def apply_bet(amount)
       raise MinBetNotMeet if amount < player_in_turn.amount_to_call
-      #TODO: Go all in
+
+      #TODO: Go all in instead of raising an error
       raise NotEnoughMoney unless player_in_turn.can_afford_to_bet?(amount)
       @pot_amount += amount
       action_history << { player: player_in_turn, stage: current_stage, move: 'bet', amount: amount}

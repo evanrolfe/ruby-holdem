@@ -71,6 +71,7 @@ describe RubyHoldem::RoundPlayer do
     end
   end
 
+  # TODO:
   describe '#can_afford_to_bet?' do
     describe 'for player 0' do
       subject { round.players[0].can_afford_to_bet?(1) }
@@ -87,5 +88,4 @@ describe RubyHoldem::RoundPlayer do
       xit { should eq(4) }
     end
   end
-
 end

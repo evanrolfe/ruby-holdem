@@ -23,6 +23,7 @@ module RubyHoldem
       @round.highest_bet_placed - current_bet_amount
     end
 
+    # TODO:
     def can_afford_to_bet?(amount)
       true
     end
