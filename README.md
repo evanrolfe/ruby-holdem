@@ -35,6 +35,12 @@ puts poker_round.winner
 # => Jack
 ```
 
+### TODO
+- Break monolithic ```Round``` class into smaller classes, i.e. ```Round```, ```RoundState``` and ```RoundPlayerMove```
+- Use rspec 3 style (subjects, expects etc.)
+- Get rid of the stubbing of action_history instance var in round_spec.rb
+- Have ```Game``` keep track of an entire poker game consisting of multiple rounds
+
 ### License
 
 RubyHoldem uses the MIT license. Please check the [LICENSE](https://github.com/evanrolfe/ruby-holdem/blob/master/LICENSE) file for more details.
