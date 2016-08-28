@@ -34,3 +34,7 @@ poker_round.make_move('fold') # Joe folds
 puts poker_round.winner
 # => Jack
 ```
+
+### License
+
+RubyHoldem uses the MIT license. Please check the [LICENSE]](https://github.com/evanrolfe/ruby-holdem/blob/master/LICENSE) file for more details.
