@@ -1,5 +1,6 @@
 require 'ruby_holdem'
 require 'ostruct'
+
 line_break = "\n----------------------\n"
 
 player1 = OpenStruct.new(name: "Player #1")
