@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module RubyHoldem
   class Round
     extend Forwardable
