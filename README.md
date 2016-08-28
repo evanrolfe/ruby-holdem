@@ -37,4 +37,4 @@ puts poker_round.winner
 
 ### License
 
-RubyHoldem uses the MIT license. Please check the [LICENSE]](https://github.com/evanrolfe/ruby-holdem/blob/master/LICENSE) file for more details.
+RubyHoldem uses the MIT license. Please check the [LICENSE](https://github.com/evanrolfe/ruby-holdem/blob/master/LICENSE) file for more details.
