@@ -17,13 +17,14 @@ module RubyHoldem
 
     # TODO: Convert players arg to num_players
     def initialize(num_players, small_blinds, big_blinds)
-      @players = num_players.times.map { |i| RoundPlayer.new("Player ##{i+1}") }
-      @dealer = Dealer.new(@players)
-
       @small_blinds, @big_blinds = small_blinds, big_blinds
       @current_stage = STAGES[0]
       @pot_amount = 0
       @action_history = []
+
+      @players = num_players.times.map { |i| RoundPlayer.new("Player ##{i+1}") }
+      @dealer = Dealer.new
+      @dealer.deal_hole_cards(@players)
     end
 
     # TODO: Extract the code relating to making a move into its own class to separate the logic

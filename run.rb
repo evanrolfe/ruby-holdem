@@ -1,12 +1,6 @@
 require 'ruby_holdem'
 
-players = [
-  RubyHoldem::Player.new(0, 100),
-  RubyHoldem::Player.new(1, 100),
-  RubyHoldem::Player.new(2, 100),
-]
-
-round = RubyHoldem::Round.new(players, 2, 4)
+round = RubyHoldem::Round.new(3, 2, 4)
 
 puts "Game started"
 
@@ -17,22 +11,20 @@ until round.has_winner?
   i=0
   until round.ready_for_next_stage?
 
-    if round_i == 2
-      if round.player_in_turn.id == 1 && i == 2
-        round.make_move('bet', 5)
-      else
-        round.make_move('call')
-      end
-    else
-      round.make_move('call')
-    end
+    next_move_args = [
+        ['bet', 4],
+        ['call'],
+        ['fold']
+      ].sample
+
+    round.make_move(*next_move_args)
 
     if round.last_move[:move] == 'bet'
-      puts "Player #{round.last_move[:player].id} raised by #{round.last_move[:amount]}"
+      puts "Player #{round.last_move[:player].name} raised by #{round.last_move[:amount]}"
     elsif round.last_move[:move] == 'call'
-      puts "Player #{round.last_move[:player].id} called by #{round.last_move[:amount]}"
+      puts "Player #{round.last_move[:player].name} called by #{round.last_move[:amount]}"
     else
-      puts "Player #{round.last_move[:player].id} folded"
+      puts "Player #{round.last_move[:player].name} folded"
     end
 
     sleep 0.3

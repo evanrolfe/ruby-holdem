@@ -1,7 +1,5 @@
 module RubyHoldem
   class RoundPlayer
-    extend Forwardable
-
     attr_reader :name
     attr_accessor :hole_cards, :current_bet_amount
 
