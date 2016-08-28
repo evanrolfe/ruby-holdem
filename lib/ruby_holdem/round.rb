@@ -47,6 +47,7 @@ module RubyHoldem
       raise StandardError unless ready_for_next_stage? && @current_stage != 'show_down'
 
       @current_stage = STAGES[STAGES.index(@current_stage)+1]
+      @dealer.deal_community_cards(@current_stage)
     end
 
     def ready_for_next_stage?
@@ -64,6 +65,7 @@ module RubyHoldem
       return players_still_in_round[2]
     end
 
+    # TODO: Refactor this method to make it more readable
     def player_in_turn  #The player whose turn it is to make a move
       return players[0] if action_history.length == 0
 
@@ -81,14 +83,14 @@ module RubyHoldem
     end
 
     def players_still_in_round
-      players_still_in_game = players.select do |round_player|
+      players.select do |round_player|
         folds = action_history.select { |action| action[:move] == 'fold' && action[:player] == round_player }
         (folds.length == 0)
       end
     end
 
     def highest_bet_placed
-      players_still_in_round.max_by { |player| player.current_bet_amount }.current_bet_amount
+      players_still_in_round.max_by(&:current_bet_amount).current_bet_amount
     end
 
     def last_move
