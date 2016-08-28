@@ -55,5 +55,4 @@ describe RubyHoldem::Dealer do
       it { expect(round.dealer.community_cards.count).to eq(1) }
     end
   end
-
 end

@@ -18,6 +18,8 @@ describe RubyHoldem::Round do
       expect(subject.players[1].player).to eq(players[1])
       expect(subject.players[2].player).to eq(players[2])
     end
+
+    # TODO: Convert all instances of "should" to "is_expected"
     its(:small_blinds) { should eq(1) }
     its(:big_blinds) { should eq(2) }
     its(:current_stage) { should eq('pre_flop') }
@@ -30,6 +32,8 @@ describe RubyHoldem::Round do
     end
 
     context 'on the pre_flop' do
+      # TODO: Convert the stubbing of the action_history to a sequence of make_move calls in a
+      #       before block
       let(:action_history) do
         [
           { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
@@ -165,18 +169,10 @@ describe RubyHoldem::Round do
   end
 
   describe '#highest_bet_placed' do
-    #TODO: Change this into before: make_move()...
-    let(:action_history) do
-      [
-        { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' },
-        { stage: 'pre_flop', player: round.players[1], amount: 4, move: 'bet' },
-        { stage: 'pre_flop', player: round.players[2], amount: 0, move: 'fold'},
-        { stage: 'pre_flop', player: round.players[0], amount: 1, move: 'bet' }
-      ]
-    end
-
     before do
-      allow(round).to receive(:action_history).and_return(action_history)
+      round.make_move('call')
+      round.make_move('call')
+      round.make_move('bet', 4)
     end
 
     subject { round.send(:highest_bet_placed) }
@@ -230,14 +226,6 @@ describe RubyHoldem::Round do
       its(:action_history) { should eq([{ player: round.players[0], stage: 'pre_flop', move: 'bet', amount: 1 }]) }
       its(:pot_amount) {  should eq(1) }
     end
-
-    context 'when the amount to call is 2' do
-      before do
-        allow(round.players[0]).to receive(:amount_to_call).and_return(2)
-      end
-
-      it { expect{ round.send(:apply_bet, 1) }.to raise_error(RubyHoldem::MinBetNotMeet) }
-    end
   end
 
   describe '#apply_call' do
@@ -250,10 +238,6 @@ describe RubyHoldem::Round do
 
       its(:action_history) { should eq([{ player: round.players[0], stage: 'pre_flop', move: 'call', amount: 0 }]) }
       its(:pot_amount) {  should eq(0) }
-    end
-
-    context 'when the previous player has raised' do
-
     end
   end
 

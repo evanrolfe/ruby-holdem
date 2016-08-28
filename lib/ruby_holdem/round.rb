@@ -15,6 +15,7 @@ module RubyHoldem
 
     STAGES = %w(pre_flop flop turn river show_down)
 
+    # TODO: Convert players arg to num_players
     def initialize(players, small_blinds, big_blinds)
       @players = players.map { |player| RoundPlayer.new(player, self) }
       @dealer = Dealer.new(@players)
@@ -25,6 +26,8 @@ module RubyHoldem
       @action_history = []
     end
 
+    # TODO: Extract the code relating to making a move into its own class to separate the logic
+    #       behind making a move and the game state methods
     def make_move(move, amount=nil)
       if turns_played == 0
         apply_bet(small_blinds)
@@ -111,23 +114,37 @@ module RubyHoldem
     end
 
     def apply_bet(amount)
-      raise MinBetNotMeet if amount < player_in_turn.amount_to_call
+      raise MinBetNotMeet if amount < min_bet_amount_for_player(player_in_turn)
 
       #TODO: Go all in instead of raising an error
-      raise NotEnoughMoney unless player_in_turn.can_afford_to_bet?(amount)
+      raise NotEnoughMoney unless player_can_afford_bet?(player_in_turn, amount)
+
       @pot_amount += amount
+      player_in_turn.current_bet_amount += amount
       action_history << { player: player_in_turn, stage: current_stage, move: 'bet', amount: amount}
     end
 
     def apply_call
-      amount = player_in_turn.amount_to_call
-      raise NotEnoughMoney unless player_in_turn.can_afford_to_bet?(amount)
+      amount = min_bet_amount_for_player(player_in_turn)
+      raise NotEnoughMoney unless player_can_afford_bet?(player_in_turn, amount)
+
       @pot_amount += amount
+      player_in_turn.current_bet_amount += amount
+
       action_history << { player: player_in_turn, stage: current_stage, move: 'call', amount: amount}
     end
 
     def apply_fold
       action_history << { player: player_in_turn, stage: current_stage, move: 'fold', amount: 0}
+    end
+
+    def min_bet_amount_for_player(player)
+      highest_bet_placed - player.current_bet_amount
+    end
+
+    # TODO:
+    def player_can_afford_bet?(player, bet_amount)
+      true
     end
   end
 end
