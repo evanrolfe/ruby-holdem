@@ -4,18 +4,17 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'ruby_holdem/version'
 
-
 Gem::Specification.new do |spec|
   spec.name          = 'ruby_holdem'
   spec.version       = RubyHoldem::VERSION
   spec.authors       = ['Evan Rolfe']
   spec.email         = ['evanrolfe@gmail.com']
   spec.summary       = 'A gem for playing texas-holdem poker'
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/evanrolfe/ruby-holdem'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.executables   = []
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
