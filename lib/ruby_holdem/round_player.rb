@@ -1,12 +1,11 @@
 module RubyHoldem
-  class RoundPlayer
-    attr_reader :name
+  class RoundPlayer < SimpleDelegator
     attr_accessor :hole_cards, :current_bet_amount
 
-    def initialize(name)
-      @name = name
+    def initialize(player)
       @hole_cards = []
       @current_bet_amount = 0
+      super(player)
     end
   end
 end

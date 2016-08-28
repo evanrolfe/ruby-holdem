@@ -1,5 +1,12 @@
+require 'ostruct'
+
 describe RubyHoldem::Round do
-  let(:round) { RubyHoldem::Round.new(3, 1, 2) }
+  let(:player1) { OpenStruct.new(name: "Player #1") }
+  let(:player2) { OpenStruct.new(name: "Player #2") }
+  let(:player3) { OpenStruct.new(name: "Player #3") }
+  let(:players) { [player1, player2, player3] }
+
+  let(:round) { RubyHoldem::Round.new(players, 1, 2) }
 
   describe '#initialize' do
     subject { round }

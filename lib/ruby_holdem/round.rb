@@ -15,14 +15,13 @@ module RubyHoldem
 
     STAGES = %w(pre_flop flop turn river show_down)
 
-    # TODO: Convert players arg to num_players
-    def initialize(num_players, small_blinds, big_blinds)
+    def initialize(players, small_blinds, big_blinds)
       @small_blinds, @big_blinds = small_blinds, big_blinds
       @current_stage = STAGES[0]
       @pot_amount = 0
       @action_history = []
 
-      @players = num_players.times.map { |i| RoundPlayer.new("Player ##{i+1}") }
+      @players = players.map { |player| RoundPlayer.new(player) }
       @dealer = Dealer.new
       @dealer.deal_hole_cards(@players)
     end

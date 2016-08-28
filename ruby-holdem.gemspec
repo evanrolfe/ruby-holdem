@@ -2,9 +2,12 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
+require 'ruby_holdem/version'
+
+
 Gem::Specification.new do |spec|
   spec.name          = 'ruby_holdem'
-  spec.version       = '0.0.1'
+  spec.version       = RubyHoldem::VERSION
   spec.authors       = ['Evan Rolfe']
   spec.email         = ['evanrolfe@gmail.com']
   spec.summary       = 'A gem for playing texas-holdem poker'
