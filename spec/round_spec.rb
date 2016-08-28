@@ -1,23 +1,8 @@
 describe RubyHoldem::Round do
-
-  let(:players) do
-    [
-      RubyHoldem::Player.new(0, 100),
-      RubyHoldem::Player.new(1, 100),
-      RubyHoldem::Player.new(2, 100),
-    ]
-  end
-
-  let(:round) { RubyHoldem::Round.new(players, 1, 2) }
+  let(:round) { RubyHoldem::Round.new(3, 1, 2) }
 
   describe '#initialize' do
     subject { round }
-
-    it 'creates three RoundPlayers' do
-      expect(subject.players[0].player).to eq(players[0])
-      expect(subject.players[1].player).to eq(players[1])
-      expect(subject.players[2].player).to eq(players[2])
-    end
 
     # TODO: Convert all instances of "should" to "is_expected"
     its(:small_blinds) { should eq(1) }

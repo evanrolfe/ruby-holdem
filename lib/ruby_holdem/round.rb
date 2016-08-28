@@ -16,8 +16,8 @@ module RubyHoldem
     STAGES = %w(pre_flop flop turn river show_down)
 
     # TODO: Convert players arg to num_players
-    def initialize(players, small_blinds, big_blinds)
-      @players = players.map { |player| RoundPlayer.new(player, self) }
+    def initialize(num_players, small_blinds, big_blinds)
+      @players = num_players.times.map { |i| RoundPlayer.new("Player ##{i+1}") }
       @dealer = Dealer.new(@players)
 
       @small_blinds, @big_blinds = small_blinds, big_blinds

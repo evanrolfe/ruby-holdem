@@ -1,14 +1,5 @@
 describe RubyHoldem::Dealer do
-
-  let(:players) do
-    [
-      RubyHoldem::Player.new(0, 100),
-      RubyHoldem::Player.new(1, 100),
-      RubyHoldem::Player.new(2, 100),
-    ]
-  end
-
-  let(:round) { RubyHoldem::Round.new(players, 1, 2) }
+  let(:round) { RubyHoldem::Round.new(3, 1, 2) }
 
   describe '#deal_hole_cards' do
     context 'with no hole cards dealt' do
