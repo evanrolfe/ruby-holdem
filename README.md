@@ -3,8 +3,8 @@ RubyHoldem is a set of classes which track the game state of a texas holdem poke
 
 ### Installation
 ```
-git clone git@github.com:evanrolfe/ruby-holdem.git
-cd ruby-holdem/
+git clone git@github.com:evanrolfe/ruby_holdem.git
+cd ruby_holdem/
 gem install ruby-holdem
 ```
 
