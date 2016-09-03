@@ -9,16 +9,17 @@ module RubyHoldem
                 :big_blinds,
                 :pot_amount,
                 :current_stage,
-                :action_history,
-                :dealer,
-                :turns_played
+                :action_history
+
+    attr_accessor :pot_amount
 
     def_delegator :@dealer, :community_cards
 
     STAGES = %w(pre_flop flop turn river show_down)
 
     def initialize(players, small_blinds, big_blinds)
-      @small_blinds, @big_blinds = small_blinds, big_blinds
+      @small_blinds = small_blinds
+      @big_blinds = big_blinds
       @current_stage = STAGES[0]
       @pot_amount = 0
       @action_history = []
@@ -28,20 +29,9 @@ module RubyHoldem
       @dealer.deal_hole_cards(@players)
     end
 
-    # TODO: Extract the code relating to making a move into its own class to separate the logic
-    #       behind making a move and the game state methods
     def make_move(move, amount=nil)
-      if turns_played == 0
-        apply_bet(small_blinds)
-      elsif turns_played == 1
-        apply_bet(big_blinds)
-      elsif move == 'bet'
-        apply_bet(amount)
-      elsif move == 'call'
-        apply_call
-      elsif move == 'fold'
-        apply_fold
-      end
+      MoveMaker.new(self, turns_played, @small_blinds, @big_blinds, highest_bet_placed, player_in_turn)
+        .make_move(move, amount)
     end
 
     def next_stage
@@ -63,24 +53,15 @@ module RubyHoldem
 
     def winner
       return players_still_in_round[0] if players_still_in_round.count == 1
-      return players_still_in_round[2]
     end
 
-    # TODO: Refactor this method to make it more readable
     def player_in_turn  #The player whose turn it is to make a move
       return players[0] if action_history.length == 0
 
       last_player_index = players.index(action_history.last[:player])
-      player_found = false
-      increment=1
+      next_player_index = (last_player_index + 1) % (players.length)
 
-      until player_found
-        next_player = players[(last_player_index + increment) % players.length]   #Wrap around the array once end reached
-        player_found = true if players_still_in_round.include?(next_player)
-        increment += 1
-      end
-
-      next_player
+      players[next_player_index]
     end
 
     def players_still_in_round
@@ -115,40 +96,6 @@ module RubyHoldem
       end
 
       players_num_calls.map { |num_calls| num_calls >= 1 }.all?
-    end
-
-    def apply_bet(amount)
-      raise MinBetNotMeet if amount < min_bet_amount_for_player(player_in_turn)
-
-      #TODO: Go all in instead of raising an error
-      raise NotEnoughMoney unless player_can_afford_bet?(player_in_turn, amount)
-
-      @pot_amount += amount
-      player_in_turn.current_bet_amount += amount
-      action_history << { player: player_in_turn, stage: current_stage, move: 'bet', amount: amount}
-    end
-
-    def apply_call
-      amount = min_bet_amount_for_player(player_in_turn)
-      raise NotEnoughMoney unless player_can_afford_bet?(player_in_turn, amount)
-
-      @pot_amount += amount
-      player_in_turn.current_bet_amount += amount
-
-      action_history << { player: player_in_turn, stage: current_stage, move: 'call', amount: amount}
-    end
-
-    def apply_fold
-      action_history << { player: player_in_turn, stage: current_stage, move: 'fold', amount: 0}
-    end
-
-    def min_bet_amount_for_player(player)
-      highest_bet_placed - player.current_bet_amount
-    end
-
-    # TODO:
-    def player_can_afford_bet?(player, bet_amount)
-      true
     end
   end
 end
