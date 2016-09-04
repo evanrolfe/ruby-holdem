@@ -40,8 +40,9 @@ module RubyHoldem
     end
 
     def make_move(move_type, amount=nil)
-      MoveValidator.new(self, player_in_turn, move_type, amount).validate
       move = MoveFactory.new(self, player_in_turn, move_type, amount).build
+
+      MoveValidator.new(self, move).validate
 
       unless move[:amount].nil?
         player_in_turn.current_bet_amount += move[:amount]

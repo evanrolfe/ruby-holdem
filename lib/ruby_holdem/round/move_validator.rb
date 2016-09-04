@@ -1,13 +1,11 @@
 module RubyHoldem
   class Round
     class MoveValidator
-      attr_reader :round, :player, :move_type, :amount
+      attr_reader :round, :move
 
-      def initialize(round, player, move_type, amount)
+      def initialize(round, move)
         @round = round
-        @player = player
-        @move_type = move_type
-        @amount = amount # TODO: What to do when its a check?
+        @move = move
       end
 
       def validate
@@ -91,6 +89,21 @@ module RubyHoldem
       #
       def current_bet_amount
         @current_bet_amount ||= player.current_bet_amount
+      end
+
+      #
+      # Dependencies on MoveFactory
+      #
+      def amount
+        move[:amount]
+      end
+
+      def move_type
+        move[:move_type]
+      end
+
+      def player
+        move[:player]
       end
     end
   end
