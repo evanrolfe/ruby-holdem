@@ -1,10 +1,11 @@
 module RubyHoldem
   class Round
     class MoveValidator
-      attr_reader :round, :move, :amount
+      attr_reader :round, :player, :move, :amount
 
-      def initialize(round, move, amount)
+      def initialize(round, player, move, amount)
         @round = round
+        @player = player
         @move = move
         @amount = amount # TODO: What to do when its a call?
       end
@@ -31,7 +32,7 @@ module RubyHoldem
       end
 
       def min_raise_amount
-        @min_raise_amount ||= highest_bet_placed - player_in_turn.current_bet_amount
+        @min_raise_amount ||= highest_bet_placed - current_bet_amount
       end
 
       # TODO:
@@ -58,10 +59,6 @@ module RubyHoldem
         @highest_bet_placed ||= round.highest_bet_placed
       end
 
-      def player_in_turn
-        @player_in_turn ||= round.player_in_turn
-      end
-
       def turns_played
         @turns_played ||= round.turns_played
       end
@@ -72,6 +69,13 @@ module RubyHoldem
 
       def big_blinds
         @big_blinds ||= round.big_blinds
+      end
+
+      #
+      # Dependencies on Player class
+      #
+      def current_bet_amount
+        @current_bet_amount ||= player.current_bet_amount
       end
     end
   end

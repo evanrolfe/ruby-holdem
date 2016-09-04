@@ -1,10 +1,11 @@
 module RubyHoldem
   class Round
     class MoveFactory
-      attr_reader :round, :move, :amount
+      attr_reader :round, :player, :move, :amount
 
-      def initialize(round, move, amount)
+      def initialize(round, player, move, amount)
         @round = round
+        @player = player
         @move = move
         @amount = amount
       end
@@ -21,10 +22,6 @@ module RubyHoldem
       #
       # Dependencies on Round class
       #
-      def player
-        round.player_in_turn
-      end
-
       def stage
         round.current_stage
       end
