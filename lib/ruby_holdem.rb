@@ -4,4 +4,10 @@ require 'ruby_holdem/errors'
 
 require 'ruby_holdem/dealer'
 require 'ruby_holdem/round'
-require 'ruby_holdem/round_player'
+require 'ruby_holdem/round/move_factory'
+require 'ruby_holdem/round/move_history'
+require 'ruby_holdem/round/move_history_computations'
+require 'ruby_holdem/round/move_validator'
+require 'ruby_holdem/round/player'
+
+require 'pry'
