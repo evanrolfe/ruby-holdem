@@ -15,8 +15,18 @@ module RubyHoldem
           player: player,
           stage: stage,
           move: move,
-          amount: amount
+          amount: actual_amount
         }
+      end
+
+      private
+
+      def actual_amount
+        if move == "call"
+          highest_bet_placed - current_bet_amount
+        else
+          amount
+        end
       end
 
       #
@@ -24,6 +34,17 @@ module RubyHoldem
       #
       def stage
         round.current_stage
+      end
+
+      def highest_bet_placed
+        @highest_bet_placed ||= round.highest_bet_placed
+      end
+
+      #
+      # Dependencies on Player class
+      #
+      def current_bet_amount
+        @current_bet_amount ||= player.current_bet_amount
       end
     end
   end

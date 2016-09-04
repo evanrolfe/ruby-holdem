@@ -40,10 +40,15 @@ module RubyHoldem
     end
 
     def make_move(move, amount=nil)
-      if MoveValidator.new(self, player_in_turn, move, amount).valid?
-        move = MoveFactory.new(self, player_in_turn, move, amount).build
-        @move_history.add_move(move)
+      MoveValidator.new(self, player_in_turn, move, amount).validate
+      move = MoveFactory.new(self, player_in_turn, move, amount).build
+
+      unless move[:amount].nil?
+        player_in_turn.current_bet_amount += move[:amount]
+        @pot_amount += move[:amount]
       end
+
+      @move_history.add_move(move)
     end
 
     def next_stage

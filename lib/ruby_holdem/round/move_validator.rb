@@ -10,24 +10,39 @@ module RubyHoldem
         @amount = amount # TODO: What to do when its a check?
       end
 
-      def valid?
-        return false if blinds_turn? && blinds_not_met?
+      def validate
+        if blinds_turn? && blinds_not_met?
+          raise MinRaiseNotMeet, "You must bet blinds."
+        end
 
-        send("valid_#{move}?")
+        send("validate_#{move}")
       end
 
       private
 
-      def valid_raise?
-        amount >= min_raise_amount && player_can_afford_raise?
+      def validate_raise
+        if amount < min_raise_amount
+          raise MinRaiseNotMeet
+        end
+
+        if !player_can_afford_raise?
+          raise InsufficientFunds
+        end
       end
 
-      def valid_check?
-        @amount = min_raise_amount
-        player_can_afford_raise?
+      def validate_call
+        if !player_can_afford_raise?
+          raise InsufficientFunds
+        end
       end
 
-      def valid_fold?
+      def validate_check
+        if min_raise_amount > 0
+          raise MinRaiseNotMeet
+        end
+      end
+
+      def validate_fold
         true # NOTE: You can always fold as long as its not a blinds turn
       end
 
