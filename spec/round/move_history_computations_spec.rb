@@ -34,10 +34,10 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "not every player has checked yet" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 10, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: nil, move: 'fold' },
-          { stage: 'pre_flop', player: players[2], amount: nil, move: 'check' },
-          { stage: 'pre_flop', player: players[0], amount: nil, move: 'check' },
+          { stage: 'pre_flop', player: players[0], amount: 10, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: nil, move_type: 'fold' },
+          { stage: 'pre_flop', player: players[2], amount: nil, move_type: 'check' },
+          { stage: 'pre_flop', player: players[0], amount: nil, move_type: 'check' },
         ]
       end
 
@@ -59,12 +59,12 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "round won after every other player folds" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: 4, move: 'raise' },
-          { stage: 'pre_flop', player: players[2], amount: 0, move: 'fold'},
-          { stage: 'pre_flop', player: players[0], amount: 3, move: 'check' },
-          { stage: 'flop', player: players[1], amount: 0, move: 'check' },
-          { stage: 'flop', player: players[0], amount: 0, move: 'fold' }
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], amount: 0, move_type: 'fold'},
+          { stage: 'pre_flop', player: players[0], amount: 3, move_type: 'check' },
+          { stage: 'flop', player: players[1], amount: 0, move_type: 'check' },
+          { stage: 'flop', player: players[0], amount: 0, move_type: 'fold' }
         ]
       end
 
@@ -86,12 +86,12 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "round won after every other player folds" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: 4, move: 'raise' },
-          { stage: 'pre_flop', player: players[2], amount: 0, move: 'fold'},
-          { stage: 'pre_flop', player: players[0], amount: 3, move: 'check' },
-          { stage: 'flop', player: players[1], amount: 0, move: 'check' },
-          { stage: 'flop', player: players[0], amount: 0, move: 'fold' }
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], amount: 0, move_type: 'fold'},
+          { stage: 'pre_flop', player: players[0], amount: 3, move_type: 'check' },
+          { stage: 'flop', player: players[1], amount: 0, move_type: 'check' },
+          { stage: 'flop', player: players[0], amount: 0, move_type: 'fold' }
         ]
       end
 
@@ -125,9 +125,9 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "turns played in pre_flop" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: 4, move: 'raise' },
-          { stage: 'pre_flop', player: players[2], amount: 0, move: 'fold'},
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], amount: 0, move_type: 'fold'},
         ]
       end
 
@@ -140,10 +140,10 @@ describe RubyHoldem::Round::MoveHistoryComputations do
       let(:stage) { 'flop' }
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: 4, move: 'raise' },
-          { stage: 'pre_flop', player: players[2], amount: 0, move: 'fold'},
-          { stage: 'pre_flop', player: players[0], amount: 3, move: 'check' }
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], amount: 0, move_type: 'fold'},
+          { stage: 'pre_flop', player: players[0], amount: 3, move_type: 'check' }
         ]
       end
 
@@ -156,12 +156,12 @@ describe RubyHoldem::Round::MoveHistoryComputations do
       let(:stage) { 'flop' }
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: 4, move: 'raise' },
-          { stage: 'pre_flop', player: players[2], amount: 0, move: 'fold'},
-          { stage: 'pre_flop', player: players[0], amount: 3, move: 'check' },
-          { stage: 'flop', player: players[1], amount: 0, move: 'check' },
-          { stage: 'flop', player: players[0], amount: 0, move: 'fold' }
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], amount: 0, move_type: 'fold'},
+          { stage: 'pre_flop', player: players[0], amount: 3, move_type: 'check' },
+          { stage: 'flop', player: players[1], amount: 0, move_type: 'check' },
+          { stage: 'flop', player: players[0], amount: 0, move_type: 'fold' }
         ]
       end
 
@@ -183,8 +183,8 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "two turns played" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], move: 'fold' }
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], move_type: 'fold' }
         ]
       end
 
@@ -196,9 +196,9 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "three turns played" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], move: 'fold' },
-          { stage: 'pre_flop', player: players[2], amount: 1, move: 'raise' }
+          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], move_type: 'fold' },
+          { stage: 'pre_flop', player: players[2], amount: 1, move_type: 'raise' }
         ]
       end
 
@@ -212,10 +212,10 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "every player has checked yet" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 10, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: nil, move: 'fold' },
-          { stage: 'pre_flop', player: players[2], amount: nil, move: 'check' },
-          { stage: 'pre_flop', player: players[0], amount: nil, move: 'check' },
+          { stage: 'pre_flop', player: players[0], amount: 10, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: nil, move_type: 'fold' },
+          { stage: 'pre_flop', player: players[2], amount: nil, move_type: 'check' },
+          { stage: 'pre_flop', player: players[0], amount: nil, move_type: 'check' },
         ]
       end
 
@@ -227,9 +227,9 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "not every player has checked yet" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 10, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: nil, move: 'fold' },
-          { stage: 'pre_flop', player: players[2], amount: nil, move: 'check' }
+          { stage: 'pre_flop', player: players[0], amount: 10, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: nil, move_type: 'fold' },
+          { stage: 'pre_flop', player: players[2], amount: nil, move_type: 'check' }
         ]
       end
 
@@ -243,9 +243,9 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "no players have folded" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 10, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: 10, move: 'raise' },
-          { stage: 'pre_flop', player: players[2], amount: 10, move: 'raise' }
+          { stage: 'pre_flop', player: players[0], amount: 10, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 10, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], amount: 10, move_type: 'raise' }
         ]
       end
 
@@ -257,9 +257,9 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "a player has folded" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 10, move: 'raise' },
-          { stage: 'pre_flop', player: players[1], amount: nil, move: 'fold' },
-          { stage: 'pre_flop', player: players[2], amount: nil, move: 'check' }
+          { stage: 'pre_flop', player: players[0], amount: 10, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: nil, move_type: 'fold' },
+          { stage: 'pre_flop', player: players[2], amount: nil, move_type: 'check' }
         ]
       end
 

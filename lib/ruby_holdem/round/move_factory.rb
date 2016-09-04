@@ -1,12 +1,12 @@
 module RubyHoldem
   class Round
     class MoveFactory
-      attr_reader :round, :player, :move, :amount
+      attr_reader :round, :player, :move_type, :amount
 
-      def initialize(round, player, move, amount)
+      def initialize(round, player, move_type, amount)
         @round = round
         @player = player
-        @move = move
+        @move_type = move_type
         @amount = amount
       end
 
@@ -14,7 +14,7 @@ module RubyHoldem
         {
           player: player,
           stage: stage,
-          move: move,
+          move_type: move_type,
           amount: actual_amount
         }
       end
@@ -22,7 +22,7 @@ module RubyHoldem
       private
 
       def actual_amount
-        if move == "call"
+        if move_type == "call"
           highest_bet_placed - current_bet_amount
         else
           amount

@@ -1,12 +1,12 @@
 module RubyHoldem
   class Round
     class MoveValidator
-      attr_reader :round, :player, :move, :amount
+      attr_reader :round, :player, :move_type, :amount
 
-      def initialize(round, player, move, amount)
+      def initialize(round, player, move_type, amount)
         @round = round
         @player = player
-        @move = move
+        @move_type = move_type
         @amount = amount # TODO: What to do when its a check?
       end
 
@@ -15,7 +15,7 @@ module RubyHoldem
           raise MinRaiseNotMeet, "You must bet blinds."
         end
 
-        send("validate_#{move}")
+        send("validate_#{move_type}")
       end
 
       private

@@ -39,9 +39,9 @@ module RubyHoldem
       @dealer.deal_hole_cards(@players)
     end
 
-    def make_move(move, amount=nil)
-      MoveValidator.new(self, player_in_turn, move, amount).validate
-      move = MoveFactory.new(self, player_in_turn, move, amount).build
+    def make_move(move_type, amount=nil)
+      MoveValidator.new(self, player_in_turn, move_type, amount).validate
+      move = MoveFactory.new(self, player_in_turn, move_type, amount).build
 
       unless move[:amount].nil?
         player_in_turn.current_bet_amount += move[:amount]

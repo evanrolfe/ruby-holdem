@@ -44,7 +44,7 @@ module RubyHoldem
         players_num_checks = players_still_in_round.map do |round_player|
           checks = moves.select do |move|
             move[:stage] == stage &&
-              move[:move] == 'check' &&
+              move[:move_type] == 'check' &&
               move[:player] == round_player
           end
           checks.length
@@ -56,7 +56,7 @@ module RubyHoldem
       def players_still_in_round
         players.select do |round_player|
           folds = moves.select do |move|
-            move[:move] == 'fold' && move[:player] == round_player
+            move[:move_type] == 'fold' && move[:player] == round_player
           end
 
           folds.length == 0
