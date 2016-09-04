@@ -11,11 +11,22 @@ module RubyHoldem
 
       def build
         {
-          player: round.player_in_turn,
-          stage: round.current_stage,
+          player: player,
+          stage: stage,
           move: move,
           amount: amount
         }
+      end
+
+      #
+      # Dependencies on Round class
+      #
+      def player
+        round.player_in_turn
+      end
+
+      def stage
+        round.current_stage
       end
     end
   end

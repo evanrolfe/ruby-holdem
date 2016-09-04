@@ -1,5 +1,5 @@
 module RubyHoldem
-  class MinBetNotMeet < StandardError
+  class MinRaiseNotMeet < StandardError
   end
 
   class NotEnoughMoney < StandardError

@@ -6,7 +6,7 @@ module RubyHoldem
       def initialize(round, move, amount)
         @round = round
         @move = move
-        @amount = amount
+        @amount = amount # TODO: What to do when its a call?
       end
 
       def valid?
@@ -17,25 +17,25 @@ module RubyHoldem
 
       private
 
-      def valid_bet?
-        amount >= min_bet_amount && player_can_afford_bet?
+      def valid_raise?
+        amount >= min_raise_amount && player_can_afford_raise?
       end
 
       def valid_call?
-        @amount = min_bet_amount
-        player_can_afford_bet?
+        @amount = min_raise_amount
+        player_can_afford_raise?
       end
 
       def valid_fold?
         true # NOTE: You can always fold as long as its not a blinds turn
       end
 
-      def min_bet_amount
-        @min_bet_amount ||= highest_bet_placed - player_in_turn.current_bet_amount
+      def min_raise_amount
+        @min_raise_amount ||= highest_bet_placed - player_in_turn.current_bet_amount
       end
 
       # TODO:
-      def player_can_afford_bet?
+      def player_can_afford_raise?
         true
       end
 
@@ -52,7 +52,7 @@ module RubyHoldem
       end
 
       #
-      # Dependencies on @round
+      # Dependencies on Round class
       #
       def highest_bet_placed
         @highest_bet_placed ||= round.highest_bet_placed
