@@ -53,9 +53,8 @@ module RubyHoldem
     end
 
     def next_stage
-      raise StandardError unless @state.ready_for_next_stage? && @current_stage != 'show_down'
-
-      @dealer.deal_community_cards(@current_stage)
+      @move_history.next_stage
+      @dealer.deal_community_cards(@move_history.stage)
     end
   end
 end

@@ -183,22 +183,25 @@ describe RubyHoldem::Round::MoveHistoryComputations do
     context "two turns played" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
-          { stage: 'pre_flop', player: players[1], move_type: 'fold' }
+          { stage: 'pre_flop', player: players[0], amount: 2, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], move_type: 'fold' }
         ]
       end
 
       subject { move_history_computations.player_in_turn }
 
-      it { is_expected.to eq(player3) }
+      it { is_expected.to eq(player1) }
     end
 
-    context "three turns played" do
+    context "many turns played" do
       let(:moves) do
         [
-          { stage: 'pre_flop', player: players[0], amount: 1, move_type: 'raise' },
-          { stage: 'pre_flop', player: players[1], move_type: 'fold' },
-          { stage: 'pre_flop', player: players[2], amount: 1, move_type: 'raise' }
+          { stage: 'pre_flop', player: players[0], amount: 2, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[1], amount: 4, move_type: 'raise' },
+          { stage: 'pre_flop', player: players[2], move_type: 'fold' },
+          { stage: 'pre_flop', player: players[0], move_type: 'call' },
+          { stage: 'pre_flop', player: players[1], move_type: 'check' }
         ]
       end
 

@@ -34,10 +34,22 @@ module RubyHoldem
       def player_in_turn  #The player whose turn it is to make a move
         return players[0] if moves.length == 0
 
-        last_player_index = players.index(moves.last[:player])
-        next_player_index = (last_player_index + 1) % (players.length)
+        last_player = moves.last[:player]
+        i = (players.index(last_player) + 1) % players.length
 
-        players[next_player_index]
+        player_found = false
+        until player_found
+          at_end_of_array = (i == (players.length - 1))
+
+          if player_is_folded?(players[i]) && !at_end_of_array
+            i += 1
+          elsif player_is_folded?(players[i]) && at_end_of_array
+            i = 0
+          else
+            player_found = true
+          end
+        end
+        players[i]
       end
 
       def every_player_has_checked?
@@ -64,6 +76,12 @@ module RubyHoldem
       end
 
       private
+
+      def player_is_folded?(player)
+        moves.select do |move|
+          move[:move_type] == 'fold' && move[:player] == player
+        end.any?
+      end
 
       #
       # Dependencies on MoveHistory class
