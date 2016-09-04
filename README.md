@@ -13,11 +13,11 @@ require 'ruby_holdem'
 players = ["Jack", "Joe", "Jil"]
 poker_round = RubyHoldem::Round.new(players, 2, 4)
 
-poker_round.make_move('bet', 2) # Jack bets small blinds
-poker_round.make_move('bet', 4) # Joe bets big blinds
+poker_round.make_move('raise', 2) # Jack raises small blinds
+poker_round.make_move('raise', 4) # Joe raises big blinds
 poker_round.make_move('fold') # Jil folds
 poker_round.make_move('call') # Jack calls
-poker_round.make_move('call') # Joe calls
+poker_round.make_move('check') # Joe calls
 poker_round.next_stage
 
 puts poker_round.community_cards.join(' ')
@@ -26,7 +26,7 @@ puts poker_round.community_cards.join(' ')
 puts poker_round.pot_amount
 # => 8
 
-poker_round.make_move('bet', 3) # Jack bets 3
+poker_round.make_move('raise', 3) # Jack raises 3
 poker_round.make_move('fold') # Joe folds
 
 puts poker_round.winner
