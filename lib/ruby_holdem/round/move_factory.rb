@@ -33,7 +33,7 @@ module RubyHoldem
       # Dependencies on Round class
       #
       def stage
-        round.current_stage
+        round.stage
       end
 
       def highest_bet_placed

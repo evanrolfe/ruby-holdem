@@ -7,7 +7,6 @@ module RubyHoldem
     attr_reader :small_blinds,
                 :big_blinds,
                 :pot_amount,
-                :current_stage,
                 :players,
                 :state
 
@@ -20,7 +19,8 @@ module RubyHoldem
                                                 :players_still_in_round,
                                                 :highest_bet_placed
 
-    def_delegators :@move_history, :last_move,
+    def_delegators :@move_history, :stage,
+                                   :last_move,
                                    :turns_played,
                                    :moves
 
