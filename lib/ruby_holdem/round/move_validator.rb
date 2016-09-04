@@ -7,7 +7,7 @@ module RubyHoldem
         @round = round
         @player = player
         @move = move
-        @amount = amount # TODO: What to do when its a call?
+        @amount = amount # TODO: What to do when its a check?
       end
 
       def valid?
@@ -22,7 +22,7 @@ module RubyHoldem
         amount >= min_raise_amount && player_can_afford_raise?
       end
 
-      def valid_call?
+      def valid_check?
         @amount = min_raise_amount
         player_can_afford_raise?
       end

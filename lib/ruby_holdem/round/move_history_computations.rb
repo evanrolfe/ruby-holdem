@@ -15,7 +15,7 @@ module RubyHoldem
       end
 
       def ready_for_next_stage?
-        every_player_has_called? && turns_played_in_stage > 0
+        every_player_has_checked? && turns_played_in_stage > 0
       end
 
       def has_winner?
@@ -40,17 +40,17 @@ module RubyHoldem
         players[next_player_index]
       end
 
-      def every_player_has_called?
-        players_num_calls = players_still_in_round.map do |round_player|
-          calls = moves.select do |move|
+      def every_player_has_checked?
+        players_num_checks = players_still_in_round.map do |round_player|
+          checks = moves.select do |move|
             move[:stage] == stage &&
-              move[:move] == 'call' &&
+              move[:move] == 'check' &&
               move[:player] == round_player
           end
-          calls.length
+          checks.length
         end
 
-        players_num_calls.map { |num_calls| num_calls >= 1 }.all?
+        players_num_checks.map { |num_checks| num_checks >= 1 }.all?
       end
 
       def players_still_in_round
